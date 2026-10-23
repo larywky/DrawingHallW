@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}DrawingHall | Cadastro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="text-center mb-4">
+                <p class="eyebrow mb-2">criar conta</p>
+                <h1 class="h3 mb-0">Cadastro</h1>
+            </div>
+
+            <form method="POST" action="{{ url_for('cadastro') }}">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome completo</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nome de usuário</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" minlength="6" required>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2">Cadastrar</button>
+            </form>
+
+            <p class="text-center mt-3 mb-0 small text-muted">
+                Já tem conta? <a href="{{ url_for('login') }}" class="text-decoration-none text-dark fw-semibold">Entrar</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

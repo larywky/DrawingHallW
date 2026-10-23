@@ -1,0 +1,109 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #f7f1eb 0%, #fdfaf7 100%);
+    color: #2f2a28;
+}
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+}
+
+.brand {
+    font-family: Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #2d1f1a !important;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    color: #8d7b71;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+
+.hero-section {
+    padding-top: 2rem;
+}
+
+.feature-box {
+    background: #fffdfb;
+    border: 1px solid #efe4dc;
+}
+
+.artwork-card {
+    overflow: hidden;
+    border-radius: 1.4rem;
+    background: #fffdfb;
+    border: 1px solid #f0e7e1;
+}
+
+.artwork-card .card-img-top {
+    height: 260px;
+    object-fit: cover;
+}
+
+.frame-box {
+    padding: 0.8rem 0.8rem 0;
+    background: #f8f4ef;
+}
+
+.frame-box img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 0.9rem;
+}
+
+.frame-box.classica {
+    background: #f8f4ef;
+}
+
+.frame-box.polaroid {
+    background: #f2ece6;
+    padding: 0.8rem 0.8rem 1.2rem;
+}
+
+.frame-box.polaroid img {
+    border: 10px solid #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.frame-box.papel {
+    background: #f5efe9;
+    border: 1px solid #e6dad0;
+}
+
+.frame-box.simples {
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.card-title {
+    color: #2b221d;
+}
+
+.btn-dark {
+    background: #2f241f;
+    border-color: #2f241f;
+}
+
+.btn-outline-dark {
+    border-color: #2f241f;
+    color: #2f241f;
+}
+
+@media (max-width: 991.98px) {
+    .hero-section {
+        text-align: center;
+    }
+
+    .d-flex.flex-wrap {
+        justify-content: center;
+    }
+}

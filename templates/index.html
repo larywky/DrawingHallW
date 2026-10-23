@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}DrawingHall | Explorar{% endblock %}
+
+{% block content %}
+<section class="hero-section mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <p class="eyebrow">galeria virtual</p>
+            <h1 class="display-5 fw-bold mb-3">Descubra desenhos, artistas e ideias em um espaço simples e acolhedor.</h1>
+            <p class="lead text-muted mb-4">
+                O DrawingHall é uma vitrine leve para artistas compartilharem esboços, estudos e criações pessoais.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="#" class="btn btn-dark btn-lg rounded-pill px-4">Começar</a>
+                <a href="#galeria" class="btn btn-outline-dark btn-lg rounded-pill px-4">Ver galeria</a>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="feature-box p-4 rounded-4 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge rounded-pill bg-light text-dark px-3 py-2">Hoje</span>
+                    <span class="text-muted small">12 novas obras</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80" alt="Desenho em destaque" class="img-fluid rounded-4 mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">Atelier de Luz</h5>
+                        <small class="text-muted">por Marina</small>
+                    </div>
+                    <span class="text-muted">❤ 128</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="galeria" class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <p class="eyebrow mb-1">explorar</p>
+            <h2 class="h3 mb-0">Desenhos recentes</h2>
+        </div>
+        <a href="#" class="text-decoration-none text-dark fw-semibold">Ver mais</a>
+    </div>
+
+    <div class="row g-4">
+        {% for desenho in desenhos %}
+        <div class="col-md-6 col-lg-4">
+            <article class="card artwork-card h-100 border-0 shadow-sm">
+                <div class="frame-box {{ desenho.moldura|lower|replace(' ', '_') }}">
+                    <img src="{{ desenho.imagem }}" class="card-img-top" alt="{{ desenho.titulo }}">
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h3 class="card-title h5 mb-0">{{ desenho.titulo }}</h3>
+                        <span class="badge rounded-pill bg-light text-dark">{{ desenho.moldura }}</span>
+                    </div>
+                    <p class="card-text text-muted small mb-3">{{ desenho.descricao }}</p>
+                    <div class="d-flex justify-content-between align-items-center text-muted small">
+                        <span>por {{ desenho.autor }}</span>
+                        <span>❤ 42</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
