@@ -25,14 +25,16 @@
                 <div class="artwork-title-row"><h2>{{ desenho.titulo }}</h2><span class="frame-label">{{ desenho.moldura|capitalize }}</span></div>
                 {% if desenho.descricao %}<p>{{ desenho.descricao }}</p>{% endif %}
                 <div class="artwork-actions">
-                    {% if not session.get('is_admin') %}
+                    {% if not session.get('is_admin') and desenho.username != session.get('username') %}
                     <form method="POST" action="{{ url_for('curtir', desenho_id=desenho.id) }}">
                         <input type="hidden" name="destino" value="artista:{{ usuario.username }}">
                         <button class="like-button {% if desenho.curtido %}is-liked{% endif %}" type="submit" aria-label="{% if desenho.curtido %}Descurtir{% else %}Curtir{% endif %} {{ desenho.titulo }}"><span aria-hidden="true">{% if desenho.curtido %}♥{% else %}♡{% endif %}</span> {{ desenho.total_curtidas }}</button>
                     </form>
                     {% else %}
                     <span class="like-count">♥ {{ desenho.total_curtidas }}</span>
+                    {% if session.get('is_admin') %}
                     <form method="POST" action="{{ url_for('apagar_desenho', desenho_id=desenho.id) }}" onsubmit="return confirm('Apagar este desenho da galeria?')"><button class="delete-button" type="submit" aria-label="Apagar {{ desenho.titulo }}">Apagar desenho</button></form>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>
