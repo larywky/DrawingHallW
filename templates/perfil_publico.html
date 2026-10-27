@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}DrawingHall | {{ usuario.nome }}{% endblock %}
+
+{% block content %}
+<section class="profile-heading public-profile-heading">
+    <div class="profile-avatar" aria-hidden="true">{{ usuario.nome[0]|upper }}</div>
+    <div>
+        <p class="eyebrow">perfil de artista</p>
+        <h1>{{ usuario.nome }}</h1>
+        <p class="profile-handle">@{{ usuario.username }} · {{ desenhos|length }} desenho(s)</p>
+        {% if usuario.bio %}<p class="profile-bio">{{ usuario.bio }}</p>{% endif %}
+    </div>
+    <a class="back-link" href="{{ url_for('galeria') }}">← Explorar</a>
+</section>
+
+<section class="profile-gallery">
+    <div class="section-heading"><div><p class="eyebrow">trabalhos publicados</p><h2>Galeria de {{ usuario.nome }}</h2></div></div>
+    {% if desenhos %}
+    <div class="artwork-grid">
+        {% for desenho in desenhos %}
+        <article class="artwork-item">
+            <div class="frame-box {{ desenho.moldura }}"><img src="{{ url_for('static', filename=desenho.imagem) }}" alt="{{ desenho.titulo }}"></div>
+            <div class="artwork-info">
+                <div class="artwork-title-row"><h2>{{ desenho.titulo }}</h2><span class="frame-label">{{ desenho.moldura|capitalize }}</span></div>
+                {% if desenho.descricao %}<p>{{ desenho.descricao }}</p>{% endif %}
+                <div class="artwork-actions">
+                    {% if not session.get('is_admin') %}
+                    <form method="POST" action="{{ url_for('curtir', desenho_id=desenho.id) }}">
+                        <input type="hidden" name="destino" value="artista:{{ usuario.username }}">
+                        <button class="like-button {% if desenho.curtido %}is-liked{% endif %}" type="submit" aria-label="{% if desenho.curtido %}Descurtir{% else %}Curtir{% endif %} {{ desenho.titulo }}"><span aria-hidden="true">{% if desenho.curtido %}♥{% else %}♡{% endif %}</span> {{ desenho.total_curtidas }}</button>
+                    </form>
+                    {% else %}
+                    <span class="like-count">♥ {{ desenho.total_curtidas }}</span>
+                    <form method="POST" action="{{ url_for('apagar_desenho', desenho_id=desenho.id) }}" onsubmit="return confirm('Apagar este desenho da galeria?')"><button class="delete-button" type="submit" aria-label="Apagar {{ desenho.titulo }}">Apagar desenho</button></form>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="profile-empty">Este artista ainda não publicou desenhos.</p>
+    {% endif %}
+</section>
+{% endblock %}

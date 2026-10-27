@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}DrawingHall | Meu perfil{% endblock %}
+
+{% block content %}
+<section class="profile-heading">
+    <div class="profile-avatar" aria-hidden="true">{{ usuario.nome[0]|upper }}</div>
+    <div>
+        <p class="eyebrow">seu espaço de criação</p>
+        <h1>{{ usuario.nome }}</h1>
+        <p class="profile-handle">@{{ usuario.username }} · {{ desenhos|length }} desenho(s)</p>
+    </div>
+</section>
+
+<section class="studio-section" id="publicar">
+    <div class="studio-heading">
+        <div><p class="eyebrow">do seu jeito</p><h2>Novo desenho</h2></div>
+        <p>Desenhe aqui ou escolha uma imagem do seu dispositivo.</p>
+    </div>
+    <form method="POST" enctype="multipart/form-data" class="studio-form" id="artwork-form">
+        <div class="studio-workspace">
+            <div class="canvas-wrap">
+                <canvas id="drawing-canvas" width="900" height="560" aria-label="Quadro para desenhar"></canvas>
+                <img id="image-preview" alt="Prévia da imagem selecionada" hidden>
+                <span class="canvas-hint" id="canvas-hint">Seu quadro começa em branco</span>
+            </div>
+            <aside class="drawing-tools" aria-label="Ferramentas de desenho">
+                <label for="brush-color">Cor do traço</label>
+                <input type="color" id="brush-color" value="#253c36" title="Escolher cor do traço">
+                <label for="brush-size">Espessura <output id="brush-size-value">6</output></label>
+                <input type="range" id="brush-size" min="1" max="28" value="6">
+                <button class="tool-button" type="button" id="clear-canvas">Limpar quadro</button>
+                <button class="tool-button" type="button" id="eraser-tool" aria-pressed="false">Borracha</button>
+                <label class="upload-button" for="imagem">Escolher imagem</label>
+                <input class="visually-hidden" type="file" id="imagem" name="imagem" accept="image/png,image/jpeg,image/gif">
+                <span class="upload-name" id="upload-name">PNG, JPG ou GIF · até 16 MB</span>
+            </aside>
+        </div>
+
+        <input type="hidden" name="desenho_canvas" id="desenho-canvas">
+        <div class="publish-fields">
+            <div class="publish-details">
+                <div class="mb-3"><label class="form-label" for="titulo">Título</label><input class="form-control" id="titulo" name="titulo" maxlength="150" required></div>
+                <div><label class="form-label" for="descricao">Descrição <span class="optional-label">opcional</span></label><textarea class="form-control" id="descricao" name="descricao" rows="3" maxlength="2000"></textarea></div>
+            </div>
+            <fieldset class="frame-picker">
+                <legend>Escolha uma moldura</legend>
+                <div class="frame-options">
+                    {% for moldura, rotulo in [('classica', 'Clássica'), ('polaroid', 'Polaroid'), ('papel', 'Papel'), ('simples', 'Simples'), ('escura', 'Escura')] %}
+                    <label class="frame-choice">
+                        <input type="radio" name="moldura" value="{{ moldura }}" {% if loop.first %}checked{% endif %}>
+                        <span class="frame-swatch frame-swatch-{{ moldura }}"><span></span></span>
+                        <span>{{ rotulo }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        </div>
+        <div class="publish-actions"><span>Você pode alterar o desenho e a moldura antes de publicar.</span><button class="btn btn-dark" type="submit">Publicar na galeria <span aria-hidden="true">↗</span></button></div>
+    </form>
+</section>
+
+<section class="profile-gallery">
+    <div class="section-heading"><div><p class="eyebrow">suas obras</p><h2>Meus desenhos</h2></div></div>
+    {% if desenhos %}
+    <div class="artwork-grid">
+        {% for desenho in desenhos %}
+        <article class="artwork-item">
+            <div class="frame-box {{ desenho.moldura }}"><img src="{{ url_for('static', filename=desenho.imagem) }}" alt="{{ desenho.titulo }}"></div>
+            <div class="artwork-info"><div class="artwork-title-row"><h3>{{ desenho.titulo }}</h3><span class="frame-label">{{ desenho.moldura|capitalize }}</span></div>{% if desenho.descricao %}<p>{{ desenho.descricao }}</p>{% endif %}</div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="profile-empty">Suas publicações aparecerão aqui.</p>
+    {% endif %}
+</section>
+{% endblock %}

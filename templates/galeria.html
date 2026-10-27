@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}DrawingHall | Galeria{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">a comunidade drawinghall</p>
+        <h1>Explorar</h1>
+        <p class="page-intro">Ideias, estudos e mundos inteiros feitos à mão.</p>
+    </div>
+    <a class="btn btn-dark" href="{{ url_for('perfil') }}#publicar">Publicar desenho <span aria-hidden="true">↗</span></a>
+</section>
+
+{% if desenhos %}
+<section class="artwork-grid" aria-label="Desenhos publicados">
+    {% for desenho in desenhos %}
+    <article class="artwork-item">
+        <div class="frame-box {{ desenho.moldura }}">
+            <img src="{{ url_for('static', filename=desenho.imagem) }}" alt="{{ desenho.titulo }}">
+        </div>
+        <div class="artwork-info">
+            <div class="artwork-title-row"><h2>{{ desenho.titulo }}</h2><span class="frame-label">{{ desenho.moldura|capitalize }}</span></div>
+            {% if desenho.descricao %}<p>{{ desenho.descricao }}</p>{% endif %}
+            <a class="artist-link" href="{{ url_for('perfil_publico', username=desenho.username) }}">por {{ desenho.nome }} · @{{ desenho.username }}</a>
+            <div class="artwork-actions">
+                {% if not session.get('is_admin') %}
+                <form method="POST" action="{{ url_for('curtir', desenho_id=desenho.id) }}">
+                    <input type="hidden" name="destino" value="galeria">
+                    <button class="like-button {% if desenho.curtido %}is-liked{% endif %}" type="submit" aria-label="{% if desenho.curtido %}Descurtir{% else %}Curtir{% endif %} {{ desenho.titulo }}">
+                        <span aria-hidden="true">{% if desenho.curtido %}♥{% else %}♡{% endif %}</span> {{ desenho.total_curtidas }}
+                    </button>
+                </form>
+                {% else %}
+                <span class="like-count" aria-label="Curtidas">♥ {{ desenho.total_curtidas }}</span>
+                <form method="POST" action="{{ url_for('apagar_desenho', desenho_id=desenho.id) }}" onsubmit="return confirm('Apagar este desenho da galeria?')">
+                    <button class="delete-button" type="submit" aria-label="Apagar {{ desenho.titulo }}">Apagar desenho</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<section class="empty-gallery">
+    <span class="empty-mark">✳</span>
+    <h2>A parede ainda está em branco.</h2>
+    <p>Publique seu primeiro desenho e comece a galeria.</p>
+    <a class="btn btn-dark" href="{{ url_for('perfil') }}#publicar">Criar ou enviar desenho</a>
+</section>
+{% endif %}
+{% endblock %}
